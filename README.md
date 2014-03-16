@@ -1,4 +1,4 @@
-jcp-2014
+pub-jcp-2014
 ========
 
 This repository contains data and figures used in "Theory of Ultrafast Photoinduced Electron Transfer from a Bulk Semiconductor to a Quantum Dot" as well as the source code used to generate the data and figures.
