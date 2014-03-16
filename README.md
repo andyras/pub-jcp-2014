@@ -1,4 +1,4 @@
-jcp-2014
+pub-jcp-2014
 ========
 
 This repository contains data and figures used in "Theory of Ultrafast Photoinduced Electron Transfer from a Bulk Semiconductor to a Quantum Dot" as well as the source code used to generate the data and figures.
@@ -32,7 +32,7 @@ Alternatively, you can modify the gnuplot `.plt` files to use a different termin
 
 0.  Install the requirements as listed above.
 1.  In the Makevars file, set the variables appropriately.
-2.  To make everything, type `make all` at the command line.
+2.  To make everything, type `make` at the command line.
 
     To make just the code, type `make code`.
 
