@@ -34,7 +34,7 @@ DYNAMIX = $(CURDIR)/$(BINDIR)/dynamix
 all: code data plots
 
 code:
-	$(MAKE) -C $(BUILDDIR)
+	$(MAKE) -C $(BUILDDIR) install
 
 data: code
 	cd $(DATADIR)
@@ -45,7 +45,7 @@ data: code
 	  cd ..
 	done
 
-plots: data | $(PLOTDIR)
+plots: data
 	cd $(PLOTDIR)
 	for plt in $$(ls *.plt)
 	do
@@ -77,11 +77,9 @@ pngplots: plots
 
 # here are rules for cleaning up and for making dirs if they don't exist
 
-DIRS = $(BINDIR) $(PLOTDIR)
-
 CLEANS = clean-code clean-data clean-plots
 
-.PHONY: clean $(CLEANS) $(DIRS)
+.PHONY: clean $(CLEANS) $(BINDIR)
 
 clean: $(CLEANS)
 
@@ -97,6 +95,3 @@ clean-plots:
 
 $(BINDIR):
 	mkdir -p $(BINDIR)
-
-$(PLOTDIR):
-	mkdir -p $(PLOTDIR)

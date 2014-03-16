@@ -1,0 +1,13 @@
+# vim stuff
+*.un~
+*.swp
+*.swo
+
+# things that are made
+*.o
+*dynamix
+bin
+*.out
+*.pdf
+*.eps
+*.png
