@@ -1,97 +1,44 @@
-# ---- [DO NOT CHANGE] base flags ---- #
-LDFLAGS = -lsundials_cvode -lsundials_nvecserial
-INCLUDES =
-CXXFLAGS = -O3 -xHOST -no-prec-div -Wall -std=c++11 -no-multibyte-chars
-CPPFLAGS =
+# ---- set up variables ---- #
 
-# ---- [CHANGE] compiler-specific flags ---- #
-# --- Intel compiler --- #
-CXX = icpc
-CXXFLAGS += -fopenmp
-LDFLAGS += -mkl
-# --- GCC --- #
-#CXX = g++
-#CXXFLAGS +=
-#CPPFLAGS +=
-#LDFLAGS += -llapack
+DYNAMIX = ~/git/dynamix/wavefunction/bin/dynamix
 
-# ---- [CHANGE] set if SUNDIALS or LAPACK are in non-standard places ---- #
-#INCLUDES += /foo/bar/includes
-
-# ---- [DO NOT CHANGE] below this line unless you really mean it ---- #
-BUILDDIR = build
-BINDIR = bin
+# --- names of data files to be created --- #
 DATADIR = data
+# assume that each run produces a tcprob.out file
+DATADIRS = $(wildcard $(DATADIR)/*)
+RUNFILES = $(patsubst %,%/tcprob.out,$(DATADIRS))
+# data which have to be thermally averaged
+AVGDATA = $(DATADIR)/sysA_incoherent/avg
+
+# --- names of plot files to be created --- #
 PLOTDIR = plots
+# assume that the names of plots match the names of the scripts
+PLOTSCRIPTS = $(wildcard $(PLOTDIR)/*plt)
+PLOTS = $(patsubst %plt,%pdf,$(PLOTSCRIPTS))
 
-# absolute path to dynamix executable
-DYNAMIX = $(CURDIR)/$(BINDIR)/dynamix
+# ---- define rules ---- #
 
+.PHONY: all data plots clean
 
-#include Makevars
+all: data plots
 
+data: $(RUNFILES) $(AVGDATA)
 
-all: code data plots
+$(AVGDATA):
+	@echo Making $@...
+	@dir=$@; cd $${dir%/avg}; ./averaging.py $(DYNAMIX) &> log.out
 
-code:
-	$(MAKE) -C $(BUILDDIR) install
+$(RUNFILES):
+	@echo Making $@...
+	@dir=$@; cd $${dir%/tcprob.out}; $(DYNAMIX) &> log.out
 
-data: code
-	cd $(DATADIR)
-	for datumdir in $$(find . -mindepth 1 -maxdepth 1 -type d)
-	do
-	  cd $${datumdir}
-	  $(DYNAMIX)
-	  cd ..
-	done
+plots: $(PLOTS)
 
-plots: data
-	cd $(PLOTDIR)
-	for plt in $$(ls *.plt)
-	do
-	  ./$${plt}
-	done
+$(PLOTS):
+	@echo Plotting $@...
+	@cd $$(dirname $@); ../$(patsubst %pdf,%plt,$@)
 
-pdfplots: plots
-	if command -v ps2pdf &> /dev/null; then
-	  cd $(PLOTDIR)
-	  for eps in $$(ls *.eps)
-	  do
-	    ps2pdf $${eps}
-	  done
-	else
-	  echo "ps2pdf not installed"
-	fi
-
-pngplots: plots
-	if command -v convert &> /dev/null; then
-	  cd $(PLOTDIR)
-	  for eps in $$(ls *.eps)
-	  do
-	    convert -density 300 $${eps} $${eps%eps}png
-	  done
-	else
-	  echo "convert not installed"
-	fi
-
-
-# here are rules for cleaning up and for making dirs if they don't exist
-
-CLEANS = clean-code clean-data clean-plots
-
-.PHONY: clean $(CLEANS) $(BINDIR)
-
-clean: $(CLEANS)
-
-clean-code:
-	cd build
-	make clean
-
-clean-data:
-	rm -f $(DATADIR)/*/*.out
-
-clean-plots:
-	rm -f $(PLOTDIR)/*.{eps,pdf,png}
-
-$(BINDIR):
-	mkdir -p $(BINDIR)
+clean:
+	rm -f $(DATADIR)/*/*out
+	rm -rf $(DATADIR)/syA_incoherent/avg
+	rm -f $(PLOTDIR)/*.pdf
