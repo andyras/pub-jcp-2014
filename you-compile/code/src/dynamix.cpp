@@ -12,7 +12,6 @@
 #include <nvector/nvector_serial.h>
 #include <mkl.h>
 #include <map>
-#include <fftw/fftw3.h>
 
 #include "libdynamix_input_parser.h"
 #include "libdynamix_outputs.h"
@@ -1636,9 +1635,6 @@ void makeOutputsTI(complex16 * psi_t, int dim, double * t, int timesteps,
    }
    fprintf(tcprob, "%-.9g %-.9g\n", t[i], tcprob_t[i]);
   }
-  if (outs["FTtcprob.out"]) {
-   writeFT("FTtcprob.out", tcprob_t, t, timesteps);
-  }
   delete [] tcprob_t;
  }
 
@@ -2996,7 +2992,7 @@ int main (int argc, char * argv[]) {
  if (outs["cprobs.plt"] && (Nc > 1)) {
   plot_cprobs(numOutputSteps, tout, k_bandtop, k_bandedge, Nk);
  }
- 
+
  // finalize log file //
  time(&endRun);
  currentTime = localtime(&endRun);

@@ -1,51 +1,6 @@
 #include "output.h"
 #include <iostream>
 
-/* prints out array of fftw_complex values.  The 'x' array is
- * the x-axis variable: time, energy, &c.
- */
-void outputFFTWVector(const char * fileName, fftw_complex * vec, double * x, int len) {
- // make output file
- FILE * output;
- output = fopen(fileName, "w");
-
- // write to the output
- for (int i = 0; i < len; i++) {
-  fprintf(output, "%-.7g %-.7g %-.7g\n", x[i], vec[i][0], vec[i][1]);
- }
-
- // clean up the mess
- fclose(output);
-
- return;
-}
-
-/* Wrapper to outputFFTWVector, which fftshifts the output.
- */
-void outputFFTWVectorShift(const char * fileName, fftw_complex * vec, double * x, int len) {
- // make a shifted copy of the vector to be printed
- fftw_complex * vec_shift;
- vec_shift = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*len);
- fftshift(vec, vec_shift, len);
-
- /*
- // make a shifted copy of the x array
- double * x_shift = new double [len];
- fftshift_double(x, x_shift, len);
- */
-
- // make the output
- outputFFTWVector(fileName, vec_shift, x, len);
-
- // clean up the mess
- fftw_free(vec_shift);
- /*
- delete [] x_shift;
- */
-
- return;
-}
-
 /* prints out initial wave function.  Inputs are the wave function array and
  * the number of equations.
  */
@@ -84,8 +39,8 @@ void outputPsiSquare(complex16 * v, realtype * evals,  int N, char * fileName) {
  for (i = 0; i < N; i++) {
   fprintf(out, "%-.9e %-.9e\n", evals[i], (pow(v[i].re,2) + pow(v[i].im,2)));
  }
- 
- fclose(out); 
+
+ fclose(out);
 }
 
 /* prints a complex vector v of length N */
