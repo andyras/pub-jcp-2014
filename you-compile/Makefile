@@ -1,6 +1,7 @@
 # ---- set up variables ---- #
 
-DYNAMIX = ~/git/dynamix/wavefunction/bin/dynamix
+CODEDIR = code
+DYNAMIX = $(CODEDIR)/dynamix
 
 # --- names of data files to be created --- #
 DATADIR = data
@@ -20,7 +21,12 @@ PLOTS = $(patsubst %plt,%pdf,$(PLOTSCRIPTS))
 
 .PHONY: all data plots clean
 
-all: data plots
+all: code data plots
+
+code: $(DYNAMIX)
+
+$(DYNAMIX):
+	$(MAKE) -C $(CODEDIR)
 
 data: $(RUNFILES) $(AVGDATA)
 
