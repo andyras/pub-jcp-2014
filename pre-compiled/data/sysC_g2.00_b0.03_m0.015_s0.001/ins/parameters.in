@@ -1,0 +1,131 @@
+## FLAGS FOR RUN ##
+do_compile=0
+do_compile_parallel=0
+do_compile_serial=0
+do_run=1
+make_plotter=0
+do_plot=0
+do_time_space_plot=0
+populations_plot=0
+kprobs_plot=0
+make_movie_maker=0
+do_movie=0
+do_cleanup=0
+do_fullcleanup=0
+do_backup=0
+
+## START INPUT PARAMETERS ##
+# method parameters #
+timedepH=0				# if H is TD, use CVODE, else diag H and propogate
+analytical=0				# turn on analytical propagation
+# numerical parameters #
+abstol=1.0e-12				# absolute tolerance
+reltol=1.0e-12				# relative tolerance
+tout=4270				# final time reached by solver (a.u.)
+numsteps=60000				# number of timesteps
+numOutputSteps=600			# number of output timesteps
+# bulk parameters #
+k_bandedge=0.00				# lower band edge of bulk conduction band (a.u.)
+k_bandtop=0.075				# upper band edge of bulk conduction band (a.u.)
+Nk=251					# number of k states to have
+Nk_first=1				# first k state initially populated
+Nk_final=1				# final k state initially populated
+bulk_gap=0.01				# bulk band gap (a.u.)
+valenceBand=0.01			# bulk valence band width
+Nl=1					# number of bulk valence band states
+bulkGaussSigma=0.001	# width of initial Gaussian in bulk (a.u.)
+bulkGaussMu=0.015			# position of initial Gaussian above band edge (a.u.)
+# physical parameters #
+temperature=4e2				# temperature in Kelvin
+# vibronic parameters #
+N_vib=11					# number of vibronic states
+E_vib=0.0036749843813			# vibrational energy
+gkc=0.0					# g factor between k and c states
+gkb=2.00					# g factor between k and b states
+gbc=-2.00				# g factor between b and c states
+gbb=0.0					# g factor between b states
+# laser parameters #
+muLK=1e0				# transition dipole moment from l to k (dipole a.u.)
+pumpFWHM=4000				# FWHM of pump pulse (time a.u.)
+pumpPeak=6000				# time of peak of pump pulse (a.u.)
+pumpFreq=3.5e-2				# frequency of pump pulse (energy a.u.)
+pumpAmpl=5.338027e-3			# intensity of pump pulse (electric field a.u.)
+pumpPhase=0.0				# pump pulse phase (units of radians)
+# starting condition switches #
+bulk_FDD=0
+bulk_Gauss=1
+bulk_constant=0
+qd_pops=0
+laser_on=0
+parabolicCoupling=0
+scale_bubr=0
+scale_brqd=0
+scale_buqd=0
+scale_laser=1
+bridge_on=1
+random_phase=0				# turning this on may break normalization
+random_seed=-1				# -1 for random seed, otherwise specify seed
+## END INPUT PARAMETERS ##
+
+# return here so that when this file is sourced by bash the output files are
+# not confusing.
+return
+
+[[Output Files]]
+#bprobs.out
+#cmax_first.out
+#cmax_first_t.out
+#cprobs_gnuplot.out
+#cmax.out
+#cmax_t.out
+#c_exp.out
+#c_diag.out
+#c_offdiag.out
+#couplings.out
+#cprobs.out
+#cprobs.plt
+#energy.out
+#energy_exp.out
+#evals.out
+#evecs.out
+#FTtcprob.out
+#ham.out
+#Icprob.out
+#Ikprob.out
+#kmax.out
+#kprobs.out
+#kprobs_gnuplot.out
+#lprobs.out
+#log.out
+#ms_est.out
+#ms_est_tot.out
+#projections.out
+#psi2_start_e.out
+#psi_e_t.out
+#psi_start_e.out
+#psi_start.out
+#psi_start_s.out
+#psi_s_t.out
+#pump_intensity.out
+#qd_est.out
+#qd_est_diag.out
+#tbprob.out
+#tcderiv.out
+tcprob.out
+#tcrate.out
+#times.out
+#tkderiv.out
+#tkprob.out
+#tkrate.out
+#tlprob.out
+#totprob.out
+#vibprob.out
+vibprob_bu.out
+vibprob_br.out
+vibprob_qd.out
+#vibprob.plt
+#vibshift_bu.out
+#vibshift_br.out
+#vibshift_qd.out
+#projections.plt
+[[End]]
