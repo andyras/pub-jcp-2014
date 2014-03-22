@@ -3,11 +3,9 @@
 
 #include <map>
 #include <cmath>
+#include <stdio.h>
 #include <string>
-#include <fftw3.h>
 #include <nvector/nvector_serial.h>
-
-#include "fftmanip.h"
 
 /* TYPE DEFINITIONS */
 
@@ -18,15 +16,6 @@ typedef struct {
 } complex16;
 
 /* FUNCTIONS */
-
-/* prints out array of fftw_complex values.  The 'x' array is
- * the x-axis variable: time, energy, &c.
- */
-void outputFFTWVector(const char * fileName, fftw_complex * vec, double * x, int len);
-
-/* Wrapper to outputFFTWVector, which fftshifts the output.
- */
-void outputFFTWVectorShift(const char * fileName, fftw_complex * vec, double * x, int len);
 
 /* prints out initial wave function.  Inputs are the wave function array and
  * the number of equations.
