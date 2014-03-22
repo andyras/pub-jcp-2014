@@ -1,5 +1,7 @@
 # ---- variables for building ---- #
 
+# the name of the executable
+BIN = dynamix
 # directories for headers, objects and source files
 INCDIR = include
 OBJDIR = obj
@@ -7,35 +9,31 @@ SRCDIR = src
 
 # ---- [DO NOT CHANGE] base flags ---- #
 LDFLAGS = -lsundials_cvode -lsundials_nvecserial
-INCLUDES =
+INCLUDES = -I./$(INCDIR)
 CXXFLAGS = -O3 -xHOST -no-prec-div -Wall -std=c++11 -no-multibyte-chars
 CXXFLAGS =
 
 # ---- [CHANGE] compiler-specific flags ---- #
 # --- Intel compiler --- #
-#CXX = icpc
-#CXXFLAGS += -fopenmp
-## -- MKL takes care of BLAS/LAPACK -- #
-#LDFLAGS += -mkl
+CXX = icpc
+CXXFLAGS += -fopenmp
+# -- MKL takes care of BLAS/LAPACK -- #
+LDFLAGS += -mkl
 
 # --- GCC --- #
-CXX = g++
-CXXFLAGS +=
-# -- flags for BLAS implementation -- #
-LDFLAGS += -lgslcblas
-INCLUDES += -I/usr/local/Cellar/gsl/1.16/include/gsl/ -L/usr/local/Cellar/gsl/1.16/lib/gsl/
-# -- flags for LAPACK implementation -- #
-LDFLAGS += -llapack
-INCLUDES += -I/usr/local/Cellar/lapack/3.4.2/include -L/usr/local/Cellar/lapack/3.4.2/lib
+#CXX = g++
+#CXXFLAGS +=
 
-# name of main executable
-### This line should be just about all you have to change ###
-BIN = dynamix
-#############################################################
+# ---- [CHANGE] locations of libraries ---- #
+# --- flags for BLAS --- #
+#LDFLAGS += -lgslcblas
+#INCLUDES += -I/usr/local/Cellar/gsl/1.16/include/gsl/ -L/usr/local/Cellar/gsl/1.16/lib/gsl/
+# --- flags for LAPACK --- #
+#LDFLAGS += -llapack
+#INCLUDES += -I/usr/local/Cellar/lapack/3.4.2/include -L/usr/local/Cellar/lapack/3.4.2/lib
 
 CXXFLAGS = -O3 -Wall
 CXXFLAGS = -Wall
-INCLUDES = -I./$(INCDIR)
 
 # make will look for .cpp files in $(SRCDIR)
 vpath %.cpp $(SRCDIR)

@@ -9,5 +9,4 @@
 bin
 *.out
 *.pdf
-*.eps
-*.png
+*.log

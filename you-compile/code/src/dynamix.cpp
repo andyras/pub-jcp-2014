@@ -99,7 +99,7 @@ void buildCoupling (realtype ** vArray, int dim, realtype kBandEdge,
                     realtype kBandTop, realtype * energy,
 		    std::map<std::string, bool> &outs) {
 // assign coupling constants to global array V
- 
+
  int i, j;	// counters
  double Vkc;	// coupling between bulk and QD
  double Vkb1;	// coupling between bulk and first bridge
@@ -133,7 +133,7 @@ void buildCoupling (realtype ** vArray, int dim, realtype kBandEdge,
     vArray[Ib][Ik+i] = Vkb1;
    }
   }
-   
+
   // coupling between bN and c
   if ((scale_brqd) && (Nc > 1)) {
    VbNc = Vbridge[Nb]/sqrt(Nc-1);
@@ -145,7 +145,7 @@ void buildCoupling (realtype ** vArray, int dim, realtype kBandEdge,
    vArray[Ic+i][Ib+Nb-1] = VbNc;
    vArray[Ib+Nb-1][Ic+i] = VbNc;
   }
-  
+
   // coupling between bridge states
   for (i = 0; i < Nb - 1; i++) {
    vArray[Ib+i][Ib+i+1] = Vbridge[i+1];
@@ -153,7 +153,7 @@ void buildCoupling (realtype ** vArray, int dim, realtype kBandEdge,
   }
  }
  // no bridge
- else {				
+ else {
   // scaling
   if ((scale_buqd) && (Nk > 1)) {
    Vkc = sqrt(Vnobridge[0]*(kBandTop-kBandEdge)/(Nk-1));
@@ -204,13 +204,13 @@ void buildCoupling (realtype ** vArray, int dim, realtype kBandEdge,
   }
   fclose(couplings);
  }
- 
+
 }
 
 
 int f(realtype t, N_Vector y, N_Vector ydot, void * data) {
 // gives f(y,t) for CVODE
- 
+
  int i, j, n, m;
  int IkRe, IkIm, IcRe, IcIm, IlRe, IlIm;
  realtype sinn;
@@ -324,7 +324,7 @@ int f(realtype t, N_Vector y, N_Vector ydot, void * data) {
       IkIm = IkRe + NEQ_vib;
       IcRe = Ic_vib + j*N_vib + m;
       IcIm = IcRe + NEQ_vib;
-      /* Franck-Condon indices should be consistent in direction from one end of the 
+      /* Franck-Condon indices should be consistent in direction from one end of the
        * system to the other.  That is, if the first index is for the beginning state
        * the second should be for the next in the chain, and so on. */
       Vee = Vkc*FCkc[n][m];
@@ -432,7 +432,7 @@ int f(realtype t, N_Vector y, N_Vector ydot, void * data) {
 
 int Output_checkpoint(
 #ifdef DEBUG
-  FILE * realImaginary, 
+  FILE * realImaginary,
 #endif
   double ** allprobs, N_Vector outputData, realtype time,
   realtype * totK, realtype * totL, realtype * totC, realtype * totB, realtype ** vibProb, realtype * times,
@@ -511,7 +511,7 @@ int Output_checkpoint(
  for (i = 0; i < NEQ; i++) {		// loop over all states
   for (j = 0; j < N_vib; j++) {		// loop over all vibronic states
    Re1 = i*N_vib + j;			// index for current state
-   Im1 = i*N_vib + j + NEQ_vib;	
+   Im1 = i*N_vib + j + NEQ_vib;
    temp += energy[Re1]*(pow(NV_Ith_S(outputData,Re1),2) + pow(NV_Ith_S(outputData,Im1),2));
    for (k = 0; k < NEQ; k++) {		// loop over all states (for coupling)
     for (l = 0; l < N_vib; l++) {	// loop over all vibronic states (for coupling)
@@ -640,7 +640,7 @@ void computeSSBreakdown(double tout, int timesteps, realtype * energies,
 
  FILE * ss_breakdown;
  ss_breakdown = fopen("ss_breakdown.out", "w");
- 
+
  double prefactor1, prefactor2, prefactor3;
  double term1, term2, term3, term4, term5;
 
@@ -1092,7 +1092,7 @@ void Compute_final_outputs (double ** allprobs, realtype * time, realtype * tk,
  if (outs["Icprob.out"]) {
   fprintf(Icprob, "%-.7g", Integrate_arrays(tc, time, num+1));
  }
- 
+
  if (outs["kmax.out"]) {
   fprintf(kmax, "%-.7g", Find_array_maximum(tk, num+1));
  }
@@ -1252,7 +1252,7 @@ void buildHamiltonian(realtype * H, realtype * energy, realtype ** V, int N, int
  int i, j;	// counters!
  int n, m;	// more counters!
  int idx1, idx2;
- 
+
  if (bridge_on) {
   // assign diagonal elements
 #ifdef DEBUG
@@ -1428,8 +1428,8 @@ void projectStateToSite(complex16 * psi_E_t, int dim, realtype * evecs, complex1
  BETA.re = 0.0;
  BETA.im = 0.0;
  int LDC = dim;
- int INCX = 1;
- int INCY = 1;
+ // int INCX = 1;
+ // int INCY = 1;
  // designating evecs col-major, essentially calling it the transpose
  cblas_zgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, M, N, K, &ALPHA,
   A, LDA, psi_E_t, LDB, &BETA, psi_S_t, LDC);
@@ -2213,7 +2213,7 @@ int main (int argc, char * argv[]) {
  inputFile = "ins/parameters.in";
  std::map<std::string, bool> outs;		// map of output file names to bool
  // END VARIABLES //
- 
+
  // Decide which output files to make
 #ifdef DEBUG
  std::cout << "Assigning outputs as specified in " << inputFile << "\n";
@@ -2235,7 +2235,7 @@ int main (int argc, char * argv[]) {
  if (outs["log.out"]) {
   fprintf(log, "Run started at %s\n", asctime(currentTime));
  }
- 
+
  // read in parameters from parameter bash script
 
  // ASSIGN VARIABLE DEFAULTS //
@@ -2566,7 +2566,7 @@ int main (int argc, char * argv[]) {
    FCkc[i] = new realtype [N_vib];
   Build_Franck_Condon_factors(FCkc, gkc, N_vib, N_vib);
   if (outs["FCkc.out"]) {
-   output2DSquareMatrix(FCkc, N_vib, "FCkc.out");
+   output2DSquareMatrix(FCkc, N_vib, (char *)"FCkc.out");
   }
 #ifdef DEBUG
    cout << "\n FCkc:\n";
@@ -2584,7 +2584,7 @@ int main (int argc, char * argv[]) {
     FCbb[i] = new realtype [N_vib];
    Build_Franck_Condon_factors(FCbb, gbb, N_vib, N_vib);
   if (outs["FCbb.out"]) {
-   output2DSquareMatrix(FCbb, N_vib, "FCbb.out");
+   output2DSquareMatrix(FCbb, N_vib, (char *)"FCbb.out");
   }
 #ifdef DEBUG
    cout << "\n FCbb:\n";
@@ -2600,7 +2600,7 @@ int main (int argc, char * argv[]) {
    FCkb[i] = new realtype [N_vib];
   Build_Franck_Condon_factors(FCkb, gkb, N_vib, N_vib);
   if (outs["FCkb.out"]) {
-   output2DSquareMatrix(FCkb, N_vib, "FCkb.out");
+   output2DSquareMatrix(FCkb, N_vib, (char *)"FCkb.out");
   }
 #ifdef DEBUG
    cout << "\n FCkb:\n";
@@ -2615,7 +2615,7 @@ int main (int argc, char * argv[]) {
    FCbc[i] = new realtype [N_vib];
   Build_Franck_Condon_factors(FCbc, gbc, N_vib, N_vib);
   if (outs["FCbc.out"]) {
-   output2DSquareMatrix(FCbc, N_vib, "FCbc.out");
+   output2DSquareMatrix(FCbc, N_vib, (char *)"FCbc.out");
   }
 #ifdef DEBUG
    cout << "\n FCbc:\n";
@@ -2789,7 +2789,7 @@ int main (int argc, char * argv[]) {
 #endif
  Output_checkpoint(
 #ifdef DEBUG
-   realImaginary, 
+   realImaginary,
 #endif
    allprob, y, t0, tkprob, tlprob, tcprob, tbprob, vibprob, times, qd_est,
    qd_est_diag, energy_expectation, 0, energy, k_bandedge, k_bandtop, k_pops);
@@ -2848,7 +2848,7 @@ int main (int argc, char * argv[]) {
     fprintf(stderr, "\r%-.2lf percent done", ((double)i/((double)numsteps))*100);
     Output_checkpoint(
 #ifdef DEBUG
-      realImaginary, 
+      realImaginary,
 #endif
       allprob, yout, t, tkprob, tlprob, tcprob, tbprob, vibprob, times, qd_est,
       qd_est_diag, energy_expectation, (i*numOutputSteps/numsteps), energy,
@@ -2881,7 +2881,7 @@ int main (int argc, char * argv[]) {
   realtype * H = new realtype [NEQ_vib*NEQ_vib];
   buildHamiltonian(H, energy, V, NEQ_vib, N_vib, FCkb, FCbb, FCbc);
   if (outs["ham.out"]) {
-   outputSquareMatrix(H, NEQ_vib, "ham.out");
+   outputSquareMatrix(H, NEQ_vib, (char *)"ham.out");
   }
   // declare LAPACK variables
   char JOBZ;            // 'N' to just compute evals; 'V' to compute evals and evecs
@@ -2916,10 +2916,10 @@ int main (int argc, char * argv[]) {
   dsyev_(&JOBZ, &UPLO, &N, H, &LDA, W, WORK, &LWORK, &INFO);
   // print eigenvalues and eigenvectors
   if (outs["evals.out"]) {
-   outputVector(W, N, "evals.out");
+   outputVector(W, N, (char *)"evals.out");
   }
   if (outs["evecs.out"]) {
-   outputSquareMatrix(H, N, "evecs.out");
+   outputSquareMatrix(H, N, (char *)"evecs.out");
   }
   // make a complex array to represent the starting psi (site basis)
   complex16 * psi_S = new complex16 [NEQ_vib];
@@ -2933,13 +2933,13 @@ int main (int argc, char * argv[]) {
   projectSiteToState(psi_S, NEQ_vib, H, psi_E);
   // print the starting wavefunction in the two bases
   if (outs["psi_start_s.out"]) {
-   outputCVector(psi_S, NEQ_vib, "psi_start_s.out");
+   outputCVector(psi_S, NEQ_vib, (char *)"psi_start_s.out");
   }
   if (outs["psi_start_e.out"]) {
-   outputCVector(psi_E, NEQ_vib, "psi_start_e.out");
+   outputCVector(psi_E, NEQ_vib, (char *)"psi_start_e.out");
   }
   if (outs["psi2_start_e.out"]) {
-   outputPsiSquare(psi_E, W, NEQ_vib, "psi2_start_e.out");
+   outputPsiSquare(psi_E, W, NEQ_vib, (char *)"psi2_start_e.out");
   }
   // make arrays to represent the wavefunction in time
   complex16 * psi_S_t = new complex16 [NEQ_vib*(numOutputSteps+1)];
@@ -2948,13 +2948,13 @@ int main (int argc, char * argv[]) {
   propagatePsi(psi_E, psi_E_t, NEQ_vib, W, numOutputSteps, tout);
   // print out the propagated wavefunction (eigenstate basis)
   if (outs["psi_e_t.out"]) {
-   outputCVectorTime(psi_E_t, NEQ_vib, (numOutputSteps+1), "psi_e_t.out");
+   outputCVectorTime(psi_E_t, NEQ_vib, (numOutputSteps+1), (char *)"psi_e_t.out");
   }
   // project back onto the site basis
   projectStateToSite(psi_E_t, NEQ_vib, H, psi_S_t, numOutputSteps);
   // print out the propagated wavefunction (site basis)
   if (outs["psi_s_t.out"]) {
-   outputCVectorTime(psi_S_t, NEQ_vib, (numOutputSteps+1), "psi_s_t.out");
+   outputCVectorTime(psi_S_t, NEQ_vib, (numOutputSteps+1), (char *)"psi_s_t.out");
   }
   makeOutputsTI(psi_S_t, NEQ_vib, times, numOutputSteps, energy, outs);
   // write out projections of subsystems
@@ -3033,6 +3033,5 @@ int main (int argc, char * argv[]) {
  delete [] FCkb;
  delete [] FCbc;
  delete [] FCbb;
- fprintf(stderr, "\nwhoo\n");
  return 0;
 }

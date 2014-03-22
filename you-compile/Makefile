@@ -1,7 +1,7 @@
 # ---- set up variables ---- #
 
 CODEDIR = code
-DYNAMIX = $(CODEDIR)/dynamix
+DYNAMIX = $(CURDIR)/$(CODEDIR)/dynamix
 
 # --- names of data files to be created --- #
 DATADIR = data
@@ -22,23 +22,27 @@ PLOTS = $(patsubst %plt,%pdf,$(PLOTSCRIPTS))
 .PHONY: all data plots clean
 
 all: code data plots
+	@echo Done making everything.
 
 code: $(DYNAMIX)
+	@echo Done making code.
 
 $(DYNAMIX):
 	$(MAKE) -C $(CODEDIR)
 
 data: $(RUNFILES) $(AVGDATA)
+	@echo Done making data.
 
 $(AVGDATA):
 	@echo Making $@...
-	@dir=$@; cd $${dir%/avg}; ./averaging.py $(DYNAMIX) &> log.out
+	@dir=$@; cd $${dir%/avg}; ./averaging.py $(DYNAMIX) &> dynamix.log
 
 $(RUNFILES):
 	@echo Making $@...
-	@dir=$@; cd $${dir%/tcprob.out}; $(DYNAMIX) &> log.out
+	@dir=$@; cd $${dir%/tcprob.out}; $(DYNAMIX) &> dynamix.log
 
 plots: $(PLOTS)
+	@echo Dome making plots.
 
 $(PLOTS):
 	@echo Plotting $@...
@@ -46,5 +50,7 @@ $(PLOTS):
 
 clean:
 	rm -f $(DATADIR)/*/*out
+	rm -f $(DATADIR)/*/*log
 	rm -rf $(DATADIR)/syA_incoherent/avg
 	rm -f $(PLOTDIR)/*.pdf
+	$(MAKE) -C $(CODEDIR) clean

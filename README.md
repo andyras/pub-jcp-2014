@@ -19,7 +19,8 @@ To compile the dynamics code and create the data, you need:
 1. A C++ compiler, <a href="http://software.intel.com/en-us/intel-education-offerings">Intel</a> or <a href="http://gcc.gnu.org/">GCC</a> recommended
 2. An implementation of the <a href="http://www.netlib.org/lapack/">LAPACK</a> linear algebra library, either Intel <a href="http://software.intel.com/en-us/intel-mkl">MKL</a> (included with Intel compiler suites) or another distribution
 3. The <a href="http://computation.llnl.gov/casc/sundials/download/download.html">SUNDIALS</a> differential ordinary equation solver package
-4. <a href="http://gnuplot.sourceforge.net/">gnuplot</a> (version 4.6.0+ recommended)
+4. (For figures) <a href="http://gnuplot.sourceforge.net/">gnuplot</a> (version 4.6.0+ recommended)
+5. (For thermally-averaged data) <a href="http://python.org/">Python</a>
 
 ## Instructions
 
