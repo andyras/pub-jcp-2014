@@ -10,8 +10,7 @@ SRCDIR = src
 # ---- [DO NOT CHANGE] base flags ---- #
 LDFLAGS = -lsundials_cvode -lsundials_nvecserial
 INCLUDES = -I./$(INCDIR)
-CXXFLAGS = -O3 -xHOST -no-prec-div -Wall -std=c++11 -no-multibyte-chars
-CXXFLAGS =
+CXXFLAGS = -O3 -Wall
 
 # ---- [CHANGE] compiler-specific flags ---- #
 # --- Intel compiler --- #
@@ -31,9 +30,6 @@ LDFLAGS += -mkl
 # --- flags for LAPACK --- #
 #LDFLAGS += -llapack
 #INCLUDES += -I/usr/local/Cellar/lapack/3.4.2/include -L/usr/local/Cellar/lapack/3.4.2/lib
-
-CXXFLAGS = -O3 -Wall
-CXXFLAGS = -Wall
 
 # make will look for .cpp files in $(SRCDIR)
 vpath %.cpp $(SRCDIR)
