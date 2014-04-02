@@ -7,6 +7,7 @@
 *.o
 *dynamix
 bin
-*.out
+/you-compile/data/*/*out
+/you-compile/data/*/*/*out
 *.pdf
 *.log
